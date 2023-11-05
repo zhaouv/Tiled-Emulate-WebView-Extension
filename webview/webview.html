@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo</title>
+    <script src="tiled.js"></script>
+</head>
+<body>
+    <script>window.moveTo(20,20);window.resizeTo(800,600);</script>
+    <p>这是一个示例页面, 下面的textarea是从Tiled发送的待编辑的内容, <br>编辑后点击done返回给Tiled, <br>此时发送的内容形式为{"status":"done","content":...}. <br>(content可以不是string, 此处的textarea始终返回string) <br>点cancel或关掉窗口取消编辑, <br>这两个场合均会发送{"status":"cancel"}给Tiled.</p>
+    <hr>
+    <p>recieved: <span id="rec"></span></p>
+    <textarea name="content" id="content" cols="30" rows="10"></textarea>
+    <br>
+    <input type="button" onclick="tiled.push(content.value)" value='done'>
+    <input type="button"  onclick="tiled.cancel()" value='cancel'>
+    <script>
+        tiled.fetch().then(response=>response.text()).then(text=>{
+            rec.textContent=text
+            try {
+                content.value=JSON.parse(text).content
+            } catch (error) {
+                
+            }
+        })
+    </script>
+</body>
+</html>

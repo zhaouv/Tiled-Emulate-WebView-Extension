@@ -1,0 +1,1 @@
+CreateObject("Wscript.Shell").Run "hs.cmd",1,True
